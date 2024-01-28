@@ -6,12 +6,20 @@ export const meta: MetaFunction = () => {
       title: "New Farcaster App" 
     },
     {
+      property: "og:title",
+      content: "Frame"
+    },
+    {
+      property: "og:title",
+      content: "Frame"
+    },
+    {
       property: "fc:frame",
       content: "vNext"
     },
     {
       property: "fc:frame:image",
-      content : "https://teletrade.ngrok.app/img/chart.png"
+      content : "https://farcap.vercel.app/img/chart-2.png"
     },
     {
       property: "fc:frame:button:1",
