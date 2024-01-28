@@ -32,6 +32,10 @@ export const meta: MetaFunction = () => {
     {
       property: "fc:frame:button:3",
       content: "1M"
+    },
+    {
+      property: "fc:frame:button:4:redirect",
+      content: "Buy"
     }
   ];
 };
