@@ -58,7 +58,7 @@ export const meta: MetaFunction = () => {
     },
     {
       property: "fc:frame:post_url",
-      content: "https://teletrade.ngrok.app/coins"
+      content: "https://farcap.vercel.app/coins"
     }
   ];
 };
