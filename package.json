@@ -8,7 +8,8 @@
     "dev": "remix dev --manual",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "domain": "ngrok http --domain=teletrade.ngrok.app 3000"
   },
   "dependencies": {
     "@remix-run/css-bundle": "^2.5.1",
