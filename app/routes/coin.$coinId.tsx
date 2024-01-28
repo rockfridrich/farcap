@@ -10,8 +10,8 @@ export const meta: MetaFunction = () => {
       content: "Frame"
     },
     {
-      property: "og:title",
-      content: "Frame"
+      property: "og:image",
+      content: "https://farcap.vercel.app/img/chart-2.png"
     },
     {
       property: "fc:frame",
