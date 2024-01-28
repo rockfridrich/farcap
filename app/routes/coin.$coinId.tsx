@@ -3,6 +3,9 @@ import type { MetaFunction } from "@remix-run/node";
 export const meta: MetaFunction = () => {
   return [
     {
+      title: "New Farcaster App" 
+    },
+    {
       property: "fc:frame",
       content: "vNext"
     },
@@ -21,10 +24,6 @@ export const meta: MetaFunction = () => {
     {
       property: "fc:frame:button:3",
       content: "1M"
-    },
-    {
-      property: "fc:frame:button:4:redirect",
-      content: "Buy"
     }
   ];
 };
@@ -32,7 +31,7 @@ export const meta: MetaFunction = () => {
 export default function Coin() {
 
     return (
-      <div></div>
+      <div>Hello</div>
     );
 
 }
