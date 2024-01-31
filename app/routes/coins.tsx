@@ -47,15 +47,15 @@ export const meta: MetaFunction = () => {
     },
     {
       property: "fc:frame:button:1",
-      content: "🎩 DEGEN"
+      content: `${(buttonIndex==1 || buttonIndex ==0) ? "✅ " : ""}$DEGEN`
     },
     {
       property: "fc:frame:button:2",
-      content: "🛫 AERO"
+      content: `${(buttonIndex==2) ? "✅ " : ""}$AERO`
     },
     {
       property: "fc:frame:button:3",
-      content: "😸 TOSHI"
+      content: `${(buttonIndex==3) ? "✅ " : ""}$TOSHI`
     },
     {
       property: "fc:frame:button:4",
