@@ -2,29 +2,25 @@ import {
     ActionFunctionArgs,
     LoaderFunctionArgs,
     MetaFunction,
-    json
+    json,
+    redirect
 } from "@remix-run/node"; // or cloudflare/deno
-
-import {
-    useLoaderData,
-} from "@remix-run/react";
 
 import invariant from "tiny-invariant";
 
-
-import type { CoinRecord } from "../data";
-import { getCoin } from "../data";
+import { getCoin, ICoin } from "../data";
 
 var buttonIndex: number = 0
-let image: string = "";
 
 export const loader = async ({
     params,
   }: LoaderFunctionArgs) => {
     invariant(params.coinId, "Missing contactId param");
-    var coin = await getCoin(params.coinId);
-    if (!coin) {
-        throw new Response("Not Found", { status: 404 });
+    const coin = getCoin(params.coinId)
+    if (coin == null) {
+        throw new Response("Oh no! Coin is not in the database", {
+            status: 404,
+        }); 
     }
     return json({ coin });
   };
@@ -34,97 +30,92 @@ export const meta: MetaFunction <typeof loader> = ({
     data,
   }) => {
 
-    var coin: CoinRecord = {
-        id: data?.coin.id,
-        chain: data?.coin.chain,
-        ticker: data?.coin.ticker
+    if(data?.coin.id == null) {
+        throw Error('Coin not found')
     }
 
-    if(coin.id === null) {
-        return []
+    let coin = getCoin(data.coin.id)
+
+    if (coin === null) {
+        throw Error('Coin not found')
     }
-    
-
-    var date: string = Date.now().toString()
-    var dateOffset = (24*60*60*1000)
-
-    if(buttonIndex == 1) { //Today
-        date = Date.now().toString()
-    } else if (buttonIndex == 2) { //1D Ago
-        date = (Date.now() - dateOffset * 1).toString()
-    } else if (buttonIndex == 3) { //1W Ago
-        date = (Date.now() - dateOffset * 7).toString()
-    } else if (buttonIndex == 4) { //2W Ago
-        date = (Date.now() - dateOffset * 14).toString()
-    }
-
-    image = `https://multichain-api.birdeye.so/${coin.chain}/thumbnails?token_address=${coin.id}&timestamp=${date}`
-
-    console.log(image)
 
     return [
         {
-            title: `Farcap ${coin.id}`
+          title: "Farcap" 
         },
         {
-            property: "og:title",
-            content: "Farcap frame"
+          property: "og:title",
+          content: "Farcap Frame"
         },
         {
-            property: "og:image",
-            content: image
+          property: "og:image",
+          content: coin.preview
         },
         {
-            property: "fc:frame",
-            content: "vNext"
+          property: "fc:frame",
+          content: "vNext"
         },
         {
-            property: "fc:frame:image",
-            content : image
+          property: "fc:frame:image",
+          content : coin.preview
         },
         {
-            property: "fc:frame:button:1",
-            content: "Today"
+          property: "fc:frame:button:1",
+          content: `Buy`
+        },
+        {
+          property: "fc:frame:button:1:action",
+          content: "post_redirect"
         },
         {
             property: "fc:frame:button:2",
-            content: "1D Ago"
-        },
+            content: `Provide LP`
+          },
+          {
+            property: "fc:frame:button:2:action",
+            content: "post_redirect"
+          },
         {
-            property: "fc:frame:button:3",
-            content: "1W Ago"
-        },
-        {
-            property: "fc:frame:button:4",
-            content: "2W Ago"
-        },
-        {
-        property: "fc:frame:post_url",
-        content: `https://teletrade.ngrok.app/coin/${coin.id}`
+          property: "fc:frame:post_url",
+          content: `${process.env.DOMAIN}/coin/${coin.address}`
         }
-    ];
+      ];
 };
 
 export async function action({
   request,
+  params
 }: ActionFunctionArgs) {
-  const body = await request.json();
-  console.log(body);
-  buttonIndex = body.untrustedData.buttonIndex;
+    invariant(params.coinId, "Missing contactId param");
+    const body = await request.json();
+    buttonIndex = body.untrustedData.buttonIndex;
   
+    const coin = getCoin(params.coinId)
+    if (coin == null) {
+        throw new Response("Oh no! Coin is not in the database", {
+            status: 404,
+        }); 
+    }
+
+    if(buttonIndex === 1) {
+        console.log(`${process.env.DOMAIN}/buy/${coin.address}`)
+        return redirect(`${process.env.DOMAIN}/buy/${coin.address}`, 302);
+    } else if (buttonIndex == 2) {
+        console.log(`${process.env.DOMAIN}/lp/${coin.address}`)
+        return redirect(`${process.env.DOMAIN}/lp/${coin.address}`, 302);
+    }
+
   return (
-    <div>Hello</div>
+    <div>^_^</div>
   ); 
 }
 
 export default function Coin() {
 
-    const { coin } = useLoaderData<typeof loader>();
-
     return (
         <div>
-            <h1>${coin.ticker}</h1>
-            <img src={image} alt={coin.id}/>
+            ^_^
         </div>
     );
 

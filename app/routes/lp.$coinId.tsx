@@ -5,7 +5,7 @@ import type {
 import { redirect } from "@remix-run/node"; // or cloudflare/deno
 import invariant from "tiny-invariant"
 
-import { ICoin, getCoin } from "./../data";
+import { ICoin, getCoin } from "../data";
 
 export const loader = async ({
   params,
@@ -17,19 +17,19 @@ export const loader = async ({
       status: 404,
     }); 
   }
-  buy(coin)
+  lp(coin)
   return json({coin: coin});
 };
 
-function buy(coin:ICoin) {
+function lp(coin:ICoin) {
 
   if(coin.buy_url == null) {
     throw new Response("Oh no! Coin has no buy page", {
       status: 404,
     }); 
   }
-  console.log(coin.buy_url)
-  throw redirect(coin.buy_url)
+  console.log(coin.lp)
+  throw redirect(coin.lp)
 }
 
 
