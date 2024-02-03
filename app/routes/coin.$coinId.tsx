@@ -22,7 +22,9 @@ export const loader = async ({
             status: 404,
         }); 
     }
-    return json({ coin });
+    return json({ coin: coin, env: {
+        domain: process.env.DOMAIN
+    } });
   };
   
 
@@ -62,23 +64,40 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:button:1",
-          content: `Buy`
+          content: `Website`
         },
+        ,
         {
           property: "fc:frame:button:1:action",
+          content: `post_redirect`
+        },
+        {
+          property: "fc:frame:button:2",
+          content: `DexScreener`
+        },
+        {
+          property: "fc:frame:button:2:action",
           content: "post_redirect"
         },
         {
-            property: "fc:frame:button:2",
-            content: `Provide LP`
-          },
-          {
-            property: "fc:frame:button:2:action",
+            property: "fc:frame:button:3",
+            content: `Swap`
+        },
+        {
+            property: "fc:frame:button:3:action",
             content: "post_redirect"
-          },
+        },
+        {
+            property: "fc:frame:button:4",
+            content: `Provide LP`
+        },
+        {
+            property: "fc:frame:button:4:action",
+            content: "post_redirect"
+        },
         {
           property: "fc:frame:post_url",
-          content: `${process.env.DOMAIN}/coin/${coin.address}`
+          content: `${data.env.domain}/coin/${coin.address}`
         }
       ];
 };
@@ -97,12 +116,14 @@ export async function action({
             status: 404,
         }); 
     }
-
-    if(buttonIndex === 1) {
-        console.log(`${process.env.DOMAIN}/buy/${coin.address}`)
-        return redirect(`${process.env.DOMAIN}/buy/${coin.address}`, 302);
+    if (buttonIndex == 1) {
+        return redirect(`${process.env.DOMAIN}/website/${coin.address}`, 302);
     } else if (buttonIndex == 2) {
-        console.log(`${process.env.DOMAIN}/lp/${coin.address}`)
+        return redirect(`${process.env.DOMAIN}/screener/${coin.address}`, 302);
+    } else if(buttonIndex === 3) {
+        return redirect(`${process.env.DOMAIN}/buy/${coin.address}`, 302);
+    } else if (buttonIndex == 4) {
+
         return redirect(`${process.env.DOMAIN}/lp/${coin.address}`, 302);
     }
 

@@ -7,6 +7,7 @@ import {
     address: string;
     chain: string;
     ticker: string;
+    website?: string;
     buy_url?: string
 };
 
@@ -14,20 +15,23 @@ export interface ICoin extends CoinRecord {
     id: string
     readonly preview: string
     readonly lp: string
+    readonly screener: string
 }
 
 class Coin implements CoinRecord {
-    public id: string; // value-property (“field”)
+    public id: string;
     public address: string;
     public chain: string;
     public ticker: string;
     public buy_url?: string | undefined;
+    public website?: string | undefined;
 
     constructor(
             address: string, 
             chain: string,
             ticker: string,
-            buy_url?: string
+            buy_url?: string,
+            website?: string
         )
     {
         if(!isAddress(address)) {
@@ -39,6 +43,7 @@ class Coin implements CoinRecord {
         this.ticker = '$'+ticker
         this.chain = chain
         this.buy_url = buy_url
+        this.website = website
     }
     
     get preview(){
@@ -47,6 +52,10 @@ class Coin implements CoinRecord {
 
     get lp(){
         return `https://app.uniswap.org/add/${this.address}?chain=${this.chain}`
+    }
+
+    get screener(){
+        return `https://dexscreener.com/${this.chain}/${this.address}`
     }
 }
 
@@ -63,7 +72,8 @@ const Coins = {
             values.address,
             values.chain,
             values.ticker,
-            values.buy_url
+            values.buy_url,
+            values.website
         )
 
         Coins.records[coin.id] = coin;
@@ -80,25 +90,29 @@ export function getCoin(id: string) {
         address: "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
         chain: "base",
         ticker: "DEGEN",
-        buy_url: "https://app.zerion.io/tokens/DEGEN-d590ac9c-6971-42db-b900-0bd057033ae0"
+        buy_url: "https://app.zerion.io/tokens/DEGEN-d590ac9c-6971-42db-b900-0bd057033ae0",
+        website: "https://www.degen.tips/"
     },
     {
         address: "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
         chain: "base",
         ticker: "AERO",
-        buy_url: "https://app.zerion.io/tokens/AERO-430f1d3d-9a4b-4a56-b804-896b34843ac0"
+        buy_url: "https://app.zerion.io/tokens/AERO-430f1d3d-9a4b-4a56-b804-896b34843ac0",
+        website: "https://aerodrome.finance/"
     },
     {
         address: "0xAC1Bd2486aAf3B5C0fc3Fd868558b082a531B2B4",
         chain: "base",
         ticker: "TOSHI",
-        buy_url: "https://app.zerion.io/tokens/TOSHI-0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4"
+        buy_url: "https://app.zerion.io/tokens/TOSHI-0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4",
+        website: "https://www.toshithecat.com/"
     },
     {
         address: "0x91f45aa2bde7393e0af1cc674ffe75d746b93567",
         chain: "base",
         ticker: "FRAME",
-        buy_url: "https://app.zerion.io/tokens/FRAME-53c0bbd1-10f4-475e-92d4-e933a3ccbf99"
+        buy_url: "https://app.zerion.io/tokens/FRAME-53c0bbd1-10f4-475e-92d4-e933a3ccbf99",
+        website: "https://warpcast.com/~/channel/frame-token"
     }
 ].forEach((coin) => {
     Coins.create(
