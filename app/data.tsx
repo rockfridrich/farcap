@@ -113,6 +113,13 @@ export function getCoin(id: string) {
         ticker: "FRAME",
         buy_url: "https://app.zerion.io/tokens/FRAME-53c0bbd1-10f4-475e-92d4-e933a3ccbf99",
         website: "https://warpcast.com/~/channel/frame-token"
+    },
+    {
+        address: "0x3cB90DfD6225917d4898dE73D6a7E4451B4f9D76",
+        chain: "base",
+        ticker: "LFG",
+        buy_url: "https://app.uniswap.org/swap?outputCurrency=0x3cB90DfD6225917d4898dE73D6a7E4451B4f9D76&chain=base",
+        website: "https://lfg-regens-and-degens.vercel.app/"
     }
 ].forEach((coin) => {
     Coins.create(

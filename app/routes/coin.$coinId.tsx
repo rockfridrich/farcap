@@ -64,36 +64,35 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:button:1",
-          content: `Website`
-        },
-        ,
-        {
-          property: "fc:frame:button:1:action",
-          content: `post_redirect`
-        },
-        {
-          property: "fc:frame:button:2",
           content: `DexScreener`
         },
         {
-          property: "fc:frame:button:2:action",
+          property: "fc:frame:button:1:action",
           content: "post_redirect"
         },
         {
-            property: "fc:frame:button:3",
+            property: "fc:frame:button:2",
             content: `Swap`
+        },
+        {
+            property: "fc:frame:button:2:action",
+            content: "post_redirect"
+        },
+        {
+            property: "fc:frame:button:3",
+            content: `Provide LP`
         },
         {
             property: "fc:frame:button:3:action",
             content: "post_redirect"
         },
         {
-            property: "fc:frame:button:4",
-            content: `Provide LP`
+          property: "fc:frame:button:4",
+          content: `🔄`
         },
         {
-            property: "fc:frame:button:4:action",
-            content: "post_redirect"
+          property: "fc:frame:button:4:action",
+          content: `post`
         },
         {
           property: "fc:frame:post_url",
@@ -116,9 +115,10 @@ export async function action({
             status: 404,
         }); 
     }
-    if (buttonIndex == 1) {
-        return redirect(`${process.env.DOMAIN}/website/${coin.address}`, 302);
-    } else if (buttonIndex == 2) {
+    // if (buttonIndex == 1) {
+    //     return redirect(`${process.env.DOMAIN}/website/${coin.address}`, 302);
+    // } else 
+    if (buttonIndex == 2) {
         return redirect(`${process.env.DOMAIN}/screener/${coin.address}`, 302);
     } else if(buttonIndex === 3) {
         return redirect(`${process.env.DOMAIN}/buy/${coin.address}`, 302);
