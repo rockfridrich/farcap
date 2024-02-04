@@ -120,6 +120,13 @@ export function getCoin(id: string) {
         ticker: "LFG",
         buy_url: "https://app.uniswap.org/swap?outputCurrency=0x3cB90DfD6225917d4898dE73D6a7E4451B4f9D76&chain=base",
         website: "https://lfg-regens-and-degens.vercel.app/"
+    },
+    {
+        address: "0xd7C1EB0fe4A30d3B2a846C04aa6300888f087A5F",
+        chain: "ethereum",
+        ticker: "POINTS",
+        buy_url: "https://app.zerion.io/tokens/POINTS-2eec7406-74fc-471f-aaf0-e55a59248e37",
+        website: "https://points.cool"
     }
 ].forEach((coin) => {
     Coins.create(
