@@ -127,6 +127,13 @@ export function getCoin(id: string) {
         ticker: "POINTS",
         buy_url: "https://app.zerion.io/tokens/POINTS-2eec7406-74fc-471f-aaf0-e55a59248e37",
         website: "https://points.cool"
+    },
+    {
+        address: "0x93e6407554B2F02640aB806cD57bd83e848Ec65d",
+        chain: "base",
+        ticker: "FAR",
+        buy_url: "https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x93e6407554B2F02640aB806cD57bd83e848Ec65d",
+        website: "https://warpcast.com/~/channel/farlaunch"
     }
 ].forEach((coin) => {
     Coins.create(
