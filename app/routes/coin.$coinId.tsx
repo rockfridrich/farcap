@@ -118,12 +118,11 @@ export async function action({
     // if (buttonIndex == 1) {
     //     return redirect(`${process.env.DOMAIN}/website/${coin.address}`, 302);
     // } else 
-    if (buttonIndex == 2) {
+    if (buttonIndex == 1) {
         return redirect(`${process.env.DOMAIN}/screener/${coin.address}`, 302);
-    } else if(buttonIndex === 3) {
+    } else if(buttonIndex === 2) {
         return redirect(`${process.env.DOMAIN}/buy/${coin.address}`, 302);
-    } else if (buttonIndex == 4) {
-
+    } else if (buttonIndex == 3) {
         return redirect(`${process.env.DOMAIN}/lp/${coin.address}`, 302);
     }
 
