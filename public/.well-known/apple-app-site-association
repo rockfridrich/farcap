@@ -6,9 +6,10 @@
                 "appID": "XWNXDSM6BU.mac.tokenary.io",
                 "paths": [
                     "/extension",
-                    "/coin/0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
-                    "/buy/0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
-                    "/purchase/0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed"
+                    "/coin/*",
+                    "/buy/*",
+                    "/purchase/*",
+                    "/purchaseRedirect/*"
                 ]
             }
         ]

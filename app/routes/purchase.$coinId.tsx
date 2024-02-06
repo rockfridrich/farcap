@@ -30,9 +30,9 @@ function buy(coin:ICoin, amount: string) {
 
   let split = amount.split('.')
   let amountWithOutZeros = split[0]
-
-  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
-  throw redirect(buyUrl)
+  throw redirect(`${process.env.DOMAIN}/purchaseRedirect/${coin.address}?amount=${amountWithOutZeros}`, 302);
+  //const buyUrl = `${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
+  //throw redirect(buyUrl)
 }
 
 
