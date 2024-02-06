@@ -26,11 +26,11 @@ var toAmount: string = ""
 
 var tx: SwapTX; 
 
-function buy(coin:ICoin, amount: string) {
+function buy(coin:ICoin, amountTo: string, amountFrom: string) {
 
-  let split = amount.split('.')
+  let split = amountTo.split('.')
   let amountWithOutZeros = split[0]
-  throw redirect(`${process.env.DOMAIN}/purchaseRedirect/${coin.address}?amount=${amountWithOutZeros}`, 302);
+  throw redirect(`${process.env.DOMAIN}/purchaseRedirect/${coin.address}?amountTo=${amountWithOutZeros}&amountFrom=${amountFrom}&ticker=${coin.ticker}&token=${coin.address}`, 302);
   //const buyUrl = `${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
   //throw redirect(buyUrl)
 }
@@ -93,7 +93,16 @@ export async function action({
 
     if(uuid != null && buttonIndex != 2) //Back Button
     {
-      buy(coin, toAmount);
+        let inAmount = url.searchParams.get('inAmount')
+        if(inAmount == null || inAmount == "") {
+          inAmount = "0"
+        }
+        let outAmount = url.searchParams.get('outAmount')
+        if(outAmount == null || outAmount == "") {
+          outAmount = "0"
+        }
+
+        buy(coin, outAmount, inAmount);
     }
   
 

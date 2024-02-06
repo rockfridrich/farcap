@@ -19,20 +19,23 @@ export const loader = async ({
     }); 
   }
   const url = new URL(request.url)
-  let amount = url.searchParams.get('amount')
-  if(amount === null) 
+  let amountTo = url.searchParams.get('amountTo')
+  if(amountTo == null) 
   {
-      amount = ""
+    amountTo = ""
   }
-  purchaseRedirect(coin, amount)
+  let amountFrom = url.searchParams.get('amountFrom')
+  if(amountFrom == null) 
+  {
+    amountFrom = ""
+  }
+  //console.log(amountOut)
+  purchaseRedirect(coin, amountTo)
   return json({coin: coin});
 };
 
-function purchaseRedirect(coin:ICoin, amount: string) {
-
-  let split = amount.split('.')
-  let amountWithOutZeros = split[0]
-  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
+function purchaseRedirect(coin:ICoin, amountTo: string) {
+  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountTo}&exactField=output`
   throw redirect(buyUrl)
 }
 
