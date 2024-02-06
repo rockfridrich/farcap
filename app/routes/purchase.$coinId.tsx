@@ -9,7 +9,7 @@ import {
 import invariant from "tiny-invariant";
 
 import { getCoin, ICoin } from "../data";
-import { isNumber } from "~/utils";
+import { isNumber, numberWithCommas } from "~/utils";
 import { SwapTX, swap } from "~/1inch.server";
 import { formatUnits } from "viem";
 import { TXs } from "~/data-txs";
@@ -30,7 +30,6 @@ function buy(coin:ICoin, amount: string) {
 
   let split = toAmount.split('.')
   let amountWithOutZeros = split[0]
-
 
   const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
   throw redirect(buyUrl)
@@ -201,7 +200,7 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:button:1",
-          content: `Buy: ${amountWithOutZeros} ✅`
+          content: `Buy: ${numberWithCommas(amountWithOutZeros)} ✅`
         },
         {
           property: "fc:frame:button:1:action",
