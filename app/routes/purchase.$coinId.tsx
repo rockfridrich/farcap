@@ -217,7 +217,7 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:post_url",
-          content: `${data.env.domain}/purchase/${coin.address}?swap=${swapUUID}`
+          content: `${data.env.domain}/purchase/${coin.address}?swap=${swapUUID}&token=${coin.address}&ticker=${coin.ticker}&inAmount=${inputAmount}&outAmount=${amountWithOutZeros}`
         }
       ];
 
