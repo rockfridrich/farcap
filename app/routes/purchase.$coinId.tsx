@@ -26,14 +26,14 @@ var toAmount: string = ""
 
 var tx: SwapTX; 
 
-function buy(coin:ICoin) {
+function buy(coin:ICoin, amount: string) {
 
-  if(coin.buy_url == null) {
-    throw new Response("Oh no! Coin has no buy page", {
-      status: 404,
-    }); 
-  }
-  throw redirect(coin.buy_url)
+  let split = toAmount.split('.')
+  let amountWithOutZeros = split[0]
+
+
+  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
+  throw redirect(buyUrl)
 }
 
 
@@ -52,14 +52,6 @@ export async function action({
         throw new Response("Oh no! Coin is not in the database", {
             status: 404,
         }); 
-    }
-
-    const url = new URL(request.url)
-    const uuid = url.searchParams.get('swap')
-
-    if(uuid != null && buttonIndex != 2) //Back Button
-    {
-      buy(coin);
     }
 
     inputPlaceholder = 'Amount of ETH to purchase (0.01, 0.1, 1 etc)'
@@ -95,6 +87,14 @@ export async function action({
         mode = "SWAP"
         inputPlaceholder = `Error: ${e.message} | ${inputPlaceholder}`
       }
+    }
+
+    const url = new URL(request.url)
+    const uuid = url.searchParams.get('swap')
+
+    if(uuid != null && buttonIndex != 2) //Back Button
+    {
+      buy(coin, toAmount);
     }
   
 

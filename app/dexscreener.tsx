@@ -100,6 +100,8 @@ interface IPair {
           return p > c ? prev : current
       })
 
+      console.log(topPair);
+
       const coinInfo: CoinInfo =  {
           volume: topPair.volume.h24,
           change24h: topPair.priceChange.h24,
