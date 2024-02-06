@@ -28,7 +28,7 @@ var tx: SwapTX;
 
 function buy(coin:ICoin, amount: string) {
 
-  let split = toAmount.split('.')
+  let split = amount.split('.')
   let amountWithOutZeros = split[0]
 
   const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
