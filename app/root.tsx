@@ -11,12 +11,12 @@ import {
 
 import stylesheet from "./styles/app.css";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [
-    { rel: "stylesheet", href: cssBundleHref }
-  ] : []),
-  { rel: "stylesheet", href: stylesheet }
-];
+// export const links: LinksFunction = () => [
+//   ...(cssBundleHref ? [
+//     { rel: "stylesheet", href: cssBundleHref }
+//   ] : []),
+//   { rel: "stylesheet", href: stylesheet }
+// ];
 
 export default function App() {
   return (
