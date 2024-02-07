@@ -139,6 +139,14 @@ export function getCoin(id: string) {
     //     website: "https://points.cool"
     // },
     {
+        address: "0x0d97F261b1e88845184f678e2d1e7a98D9FD38dE",
+        chain: "base",
+        chain_id: 8453,
+        ticker: "TBYG",
+        buy_url: "https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x0d97F261b1e88845184f678e2d1e7a98D9FD38dE",
+        website: "https://www.basegod.fun/"
+    },
+    {
         address: "0x93e6407554B2F02640aB806cD57bd83e848Ec65d",
         chain: "base",
         chain_id: 8453,
