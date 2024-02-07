@@ -9,7 +9,7 @@ import {
 import invariant from "tiny-invariant";
 
 import { getCoin, ICoin } from "../data";
-import { CoinInfo, getTokenInfo } from "~/dexscreener";
+import { CoinInfo, getTokenInfo } from "~/dexscreener.server";
 import { coinPreview } from "~/preview.server";
 
 export const OG_IMAGE_WIDTH = 1200

@@ -12,8 +12,9 @@ import { getCoin, ICoin } from "../data";
 import { isNumber, numberWithCommas } from "~/utils";
 import { SwapTX, swap } from "~/1inch.server";
 import { formatUnits } from "viem";
-import { TXs } from "~/data-txs";
 import { getFarcasterUserAddress } from "~/neynar.server";
+import {v4 as uuidv4} from 'uuid';
+import { signTxParams } from "~/signer.server";
 
 var mode: string = "SWAP"
 
@@ -22,18 +23,10 @@ var inputText: string = ""
 var inputPlaceholder = 'Amount of ETH to purchase (0.01, 0.1, 1 etc)'
 
 var inputAmount: number = 0
-var toAmount: string = ""
+var outputAmount: string = ""
 
+var targetUrl: string = "";
 var tx: SwapTX; 
-
-function buy(coin:ICoin, amountTo: string, amountFrom: string) {
-
-  let split = amountTo.split('.')
-  let amountWithOutZeros = split[0]
-  throw redirect(`${process.env.DOMAIN}/purchaseRedirect/${coin.address}?amountTo=${amountWithOutZeros}&amountFrom=${amountFrom}&ticker=${coin.ticker}&token=${coin.address}`, 302);
-  //const buyUrl = `${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
-  //throw redirect(buyUrl)
-}
 
 
 export async function action({
@@ -43,8 +36,10 @@ export async function action({
     invariant(params.coinId, "Missing contactId param");
 
     const body = await request.json();
+
     buttonIndex = body.untrustedData.buttonIndex;
     inputText = body.untrustedData.inputText; 
+    inputPlaceholder = 'Amount of ETH to purchase (0.01, 0.1, 1 etc)';
 
     const coin = getCoin(params.coinId)
     if (coin == null) {
@@ -53,8 +48,6 @@ export async function action({
         }); 
     }
 
-    inputPlaceholder = 'Amount of ETH to purchase (0.01, 0.1, 1 etc)'
-
     try {
 
       if(isNumber(inputText)) {
@@ -62,8 +55,7 @@ export async function action({
         inputAmount = Number(inputText)
 
         if(inputAmount > 0) {
-          mode = "PURCHASE"
-
+          
           let address = await getFarcasterUserAddress(body.trustedData.messageBytes)
 
           let swapTx = await swap(
@@ -72,12 +64,16 @@ export async function action({
             inputAmount.toString()
           )
          
-          if(swapTx == false) {
-            mode = 'SWAP'
-          } else {
-            toAmount = formatUnits(swapTx.toAmount, 18)
-            tx = swapTx.tx
-          }
+          outputAmount = formatUnits(swapTx.toAmount, 18) //TODO: Decimals to Coin
+          tx = swapTx.tx
+
+          mode = "PURCHASE"
+        
+        }
+      } else {
+        if(inputText != "" && inputText != undefined) {
+          console.log(inputText);
+          throw Error('Please enter a number')
         }
       }
 
@@ -91,23 +87,24 @@ export async function action({
     const url = new URL(request.url)
     const uuid = url.searchParams.get('swap')
 
-    if(uuid != null && buttonIndex != 2) //Back Button
+    if(mode == "PURCHASE" && tx != undefined) 
     {
-        let inAmount = url.searchParams.get('inAmount')
-        if(inAmount == null || inAmount == "") {
-          inAmount = "0"
-        }
-        let outAmount = url.searchParams.get('outAmount')
-        if(outAmount == null || outAmount == "") {
-          outAmount = "0"
-        }
+      const UUID = uuidv4()
 
-        buy(coin, outAmount, inAmount);
-    }
+      let swapParams = `to=${tx.to}&from=${tx.from}&data=${tx.data}&value=${tx.value}&gas=${tx.gas}&gasPrice=${tx.gasPrice}&chainId=${coin.chain_id}&id=${UUID}`
+        
+      let signature =  await signTxParams(swapParams)
   
+      let split = outputAmount.split('.')
+      let amountWithOutZeros = split[0]
+  
+      targetUrl = `${process.env.DOMAIN}/purchaseRedirect/${coin.address}?${swapParams}&signature=${signature}&outputToken=${coin.address}&outputTicker=${coin.ticker}&outputAmount=${amountWithOutZeros}&inputToken=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&inputTicker=ETH&inputAmount=${inputAmount}`
+    }
+
+    
 
   return (
-    <div>^_^</div>
+    <div>Yo / Purchase</div>
   ); 
 }
 
@@ -172,6 +169,14 @@ export const meta: MetaFunction <typeof loader> = ({
           content: "post"
         },
         {
+          property: "fc:frame:button:2",
+          content: `🔄`
+        },
+        {
+          property: "fc:frame:button:2:action",
+          content: "post"
+        },
+        {
           property: "fc:frame:input:text",
           content: `${inputPlaceholder}`
         },
@@ -182,11 +187,11 @@ export const meta: MetaFunction <typeof loader> = ({
       ];
     } else if(mode === 'PURCHASE') {
 
-      let split = toAmount.split('.')
+      let split = outputAmount.split('.')
       let amountWithOutZeros = split[0]
 
-      const swapUUID = TXs.create(tx)
-
+      const swapUUID = uuidv4()
+      
       return [
         {
           title: "Farcap" 
@@ -213,7 +218,11 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:button:1:action",
-          content: "post_redirect"
+          content: "link"
+        },
+        {
+          property: "fc:frame:button:1:target",
+          content: targetUrl
         },
         {
           property: "fc:frame:button:2",
@@ -225,7 +234,7 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:post_url",
-          content: `${data.env.domain}/purchase/${coin.address}?swap=${swapUUID}&token=${coin.address}&ticker=${coin.ticker}&inAmount=${inputAmount}&outAmount=${amountWithOutZeros}`
+          content: `${data.env.domain}/purchase/${coin.address}?swap=${swapUUID}&inputAmount=${inputAmount}&outputAmount=${amountWithOutZeros}`
         }
       ];
 
@@ -250,7 +259,7 @@ export default function Purchase() {
 
     return (
         <div>
-            ^_^
+            Yo / Purchase
         </div>
     );
 

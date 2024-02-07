@@ -41,7 +41,7 @@ export const meta: MetaFunction <typeof loader> = ({
     if (coin === null) {
         throw Error('Coin not found')
     }
-
+    console.log(coin.lp)
     return [
         {
           title: "Farcap" 
@@ -68,7 +68,11 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
           property: "fc:frame:button:1:action",
-          content: "post_redirect"
+          content: "link"
+        },
+        {
+          property: "fc:frame:button:1:target",
+          content: coin.screener
         },
         {
             property: "fc:frame:button:2",
@@ -76,7 +80,11 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
             property: "fc:frame:button:2:action",
-            content: "post_redirect"
+            content: "link"
+        },
+        {
+          property: "fc:frame:button:2:target",
+          content: coin.buy_url
         },
         {
             property: "fc:frame:button:3",
@@ -84,7 +92,11 @@ export const meta: MetaFunction <typeof loader> = ({
         },
         {
             property: "fc:frame:button:3:action",
-            content: "post_redirect"
+            content: "link"
+        },
+        {
+            property: "fc:frame:button:3:target",
+            content: coin.lp
         },
         {
           property: "fc:frame:button:4",
@@ -115,9 +127,7 @@ export async function action({
             status: 404,
         }); 
     }
-    // if (buttonIndex == 1) {
-    //     return redirect(`${process.env.DOMAIN}/website/${coin.address}`, 302);
-    // } else 
+
     if (buttonIndex == 1) {
         return redirect(`${process.env.DOMAIN}/screener/${coin.address}`, 302);
     } else if(buttonIndex === 2) {
@@ -127,7 +137,7 @@ export async function action({
     }
 
   return (
-    <div>^_^</div>
+    <div>Yo / Coin / Post</div>
   ); 
 }
 
@@ -135,7 +145,7 @@ export default function Coin() {
 
     return (
         <div>
-            ^_^
+            Yo / Coin
         </div>
     );
 

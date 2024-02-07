@@ -3,7 +3,7 @@ import type {SatoriOptions} from 'satori'
 import satori from 'satori'
 
 import { OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from '~/routes/image.$coinId'
-import { CoinInfo } from './dexscreener'
+import { CoinInfo } from './dexscreener.server'
 import { ICoin } from './data'
 
 async function getFont(

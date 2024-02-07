@@ -6,8 +6,6 @@ import {
   redirect
 } from "@remix-run/node"; // or cloudflare/deno
 
-import invariant from "tiny-invariant";
-
 import { ICoin, getCoin } from "./../data";
 
 var buttonIndex: number = 0
@@ -84,7 +82,11 @@ export const meta: MetaFunction <typeof loader> = ({
     },
     {
       property: "fc:frame:button:4:action",
-      content: "post_redirect"
+      content: "link"
+    },
+    {
+      property: "fc:frame:button:4:target",
+      content: selected.buy_url
     }
   ];
 };
@@ -95,23 +97,16 @@ export async function action({
   
   const body = await request.json();
   buttonIndex = body.untrustedData.buttonIndex;
-  const url = new URL(request.url)
-  const address = url.searchParams.get('address')
-  
-  if(buttonIndex === 4) {
-    //console.log(`${process.env.DOMAIN}/buy/${address?.toLowerCase()}`)
-    return redirect(`${process.env.DOMAIN}/buy/${address?.toLowerCase()}`, 302);
-  }
 
   return (
-    <div>^_^</div>
+    <div>Yo / Coins / Post</div>
   ); 
 }
 
 export default function Coins() {
 
     return (
-      <div>^_^</div>
+      <div>Yo / Coins</div>
     );
 
 }

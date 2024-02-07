@@ -19,24 +19,20 @@ export const loader = async ({
     }); 
   }
   const url = new URL(request.url)
-  let amountTo = url.searchParams.get('amountTo')
-  if(amountTo == null) 
+  let outputAmount = url.searchParams.get('outputAmount')
+  console.log(outputAmount)
+  if(outputAmount == null) 
   {
-    amountTo = ""
+    outputAmount = ""
   }
-  let amountFrom = url.searchParams.get('amountFrom')
-  if(amountFrom == null) 
-  {
-    amountFrom = ""
-  }
-  //console.log(amountOut)
-  purchaseRedirect(coin, amountTo)
+  purchaseRedirect(coin, outputAmount)
   return json({coin: coin});
 };
 
-function purchaseRedirect(coin:ICoin, amountTo: string) {
-  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${amountTo}&exactField=output`
+function purchaseRedirect(coin:ICoin, outputAmount: string) {
+  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${outputAmount}&exactField=output`
   throw redirect(buyUrl)
+  //console.log(buyUrl)
 }
 
 
@@ -44,7 +40,7 @@ export default function PurchaseRedirect() {
 
   return (
       <div>
-          ^_^
+          Yo / Purchase Redirect
       </div>
   );
 

@@ -4,13 +4,13 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "npm run build:css && remix build",
+    "build": "remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "domain": "ngrok http --domain=teletrade.ngrok.app 3000",
-    "dev": "concurrently \"npm run dev:css\" \"remix dev --manual\"",
+    "dev": "remix dev --manual",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css"
   },
   "dependencies": {
