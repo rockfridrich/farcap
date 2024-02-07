@@ -91,14 +91,14 @@ export async function action({
     {
       const UUID = uuidv4()
 
-      let swapParams = `to=${tx.to}&from=${tx.from}&data=${tx.data}&value=${tx.value}&gas=${tx.gas}&gasPrice=${tx.gasPrice}&chainId=${coin.chain_id}&id=${UUID}`
-        
-      let signature =  await signTxParams(swapParams)
-  
       let split = outputAmount.split('.')
       let amountWithOutZeros = split[0]
+
+      let urlParams = `to=${tx.to}&from=${tx.from}&data=${tx.data}&value=${tx.value}&gas=${tx.gas}&gasPrice=${tx.gasPrice}&chainId=${coin.chain_id}&id=${UUID}&outputToken=${coin.address}&outputTicker=${coin.ticker}&outputAmount=${amountWithOutZeros}&inputToken=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&inputTicker=ETH&inputAmount=${inputAmount}`
+        
+      let signature =  await signTxParams(urlParams)
   
-      targetUrl = `${process.env.DOMAIN}/purchaseRedirect/${coin.address}?${swapParams}&signature=${signature}&outputToken=${coin.address}&outputTicker=${coin.ticker}&outputAmount=${amountWithOutZeros}&inputToken=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee&inputTicker=ETH&inputAmount=${inputAmount}`
+      targetUrl = `${process.env.DOMAIN}/purchaseRedirect/${coin.address}?${urlParams}&signature=${signature}`
     }
 
     
