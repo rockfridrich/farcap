@@ -31,8 +31,6 @@ function buy(coin:ICoin, amountTo: string, amountFrom: string) {
   let split = amountTo.split('.')
   let amountWithOutZeros = split[0]
   throw redirect(`${process.env.DOMAIN}/purchaseRedirect/${coin.address}?amountTo=${amountWithOutZeros}&amountFrom=${amountFrom}&ticker=${coin.ticker}&token=${coin.address}`, 302);
-  //const buyUrl = `${coin.address}&exactAmount=${amountWithOutZeros}&exactField=output`
-  //throw redirect(buyUrl)
 }
 
 
@@ -243,7 +241,7 @@ export const meta: MetaFunction <typeof loader> = ({
             gasPrice: string;
           */
           property: "fc:frame:button:1:target",
-          content: `${data.env.domain}/purchaseLink/${coin.address}?to=${tx.to}&from=${tx.from}&data=${tx.data}&value=${tx.value}&gas=${tx.gas}&gasPrice=${tx.gasPrice}&swap=${swapUUID}&token=${coin.address}&ticker=${coin.ticker}&amountIn=${inputAmount}&amountOut=${amountWithOutZeros}`
+          content: `${data.env.domain}/purchaseRedirect/${coin.address}?to=${tx.to}&from=${tx.from}&data=${tx.data}&value=${tx.value}&gas=${tx.gas}&gasPrice=${tx.gasPrice}&swap=${swapUUID}&token=${coin.address}&ticker=${coin.ticker}&amountTo=${inputAmount}&amountFrom=${amountWithOutZeros}`
         },
         {
           property: "fc:frame:button:2",
