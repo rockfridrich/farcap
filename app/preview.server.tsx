@@ -8,6 +8,39 @@ import { ICoin } from './data'
 import { nFormatter } from './utils'
 import moment from 'moment'
 
+const SatoriFonts = {
+  records: {} as Record<string, SatoriOptions["fonts"]>,
+
+  get(id: string): SatoriOptions["fonts"] | null {
+      return SatoriFonts.records[id.toLowerCase()] || null;
+  },
+
+  create(fontName: string, values: SatoriOptions["fonts"]): SatoriOptions["fonts"] { 
+      SatoriFonts.records[fontName] = values;
+      return values;
+  }
+}
+
+const Previews = {
+  records: {} as Record<string, Record<string,string>>,
+
+  get(token: string, timestamp: string): string | null {
+
+      let tokenPreviews = Previews.records[token]
+      if(tokenPreviews == null) {
+        return null
+      }
+
+      return Previews.records[token][timestamp] || null;
+  },
+
+  create(token:string, timestamp: string, preview:string): string { 
+      Previews.records[token] = {}
+      Previews.records[token][timestamp] = preview;
+      return preview;
+  }
+}
+
 async function getFont(
     font: string,
     weights = [400, 500, 600, 700],
@@ -25,7 +58,7 @@ async function getFont(
         },
       },
     ).then((response) => response.text())
-  
+
     const resource = css.matchAll(
       /src: url\((.+)\) format\('(opentype|truetype)'\)/g,
     )
@@ -44,24 +77,47 @@ async function getFont(
 
   export async function coinPreview(coin: ICoin, coinInfo: CoinInfo) {
 
-    const options: SatoriOptions = {
-        width: OG_IMAGE_WIDTH,
-        height: OG_IMAGE_HEIGHT,
-        fonts: await Promise.all([
-            getFont("Inter")
-        ]).then((fonts) => fonts.flat())
-    }
     //https://momentjs.com/ Feb 7th, 2024 10:21 UTC
     const date = moment(Date.now()).format('MMM Do, Y hh:mm UTC');//%b %d, %Y %I:%M UTC
 
-    // Design the image and generate an SVG with "satori"
+    let svg = Previews.get(coin.address, date)
 
-    let svg //= await downTrendPreview(coin, coinInfo, date, options)
+    if(svg == null) {
 
-    if(coinInfo.change24h >= 0) {
-      svg = await upTrendPreview(coin, coinInfo, date, options)
+      let fonts = SatoriFonts.get('Inter');
+
+      if(fonts == null) {
+        fonts = await Promise.all([
+          getFont("Inter")
+        ]).then((fonts) => fonts.flat())
+  
+        if(fonts == null) {
+          throw Error('Invalid Font')
+        }
+  
+        fonts = SatoriFonts.create('Inter', fonts)
+      } else {
+        console.log("Cached Font")
+      }
+  
+      const options: SatoriOptions = {
+          width: OG_IMAGE_WIDTH,
+          height: OG_IMAGE_HEIGHT,
+          fonts: fonts
+      }
+  
+      // Design the image and generate an SVG with "satori"
+  
+      if(coinInfo.change24h >= 0) {
+        svg = await upTrendPreview(coin, coinInfo, date, options)
+      } else {
+        svg = await downTrendPreview(coin, coinInfo, date, options)
+      }
+
+      svg = Previews.create(coin.address, date, svg)
+
     } else {
-      svg = await downTrendPreview(coin, coinInfo, date, options)
+      console.log("Cached Preview")
     }
 
     // Convert the SVG to PNG with "resvg"
