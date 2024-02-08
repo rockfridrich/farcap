@@ -147,6 +147,14 @@ export function getCoin(id: string) {
         website: "https://www.basegod.fun/"
     },
     {
+        address: "0xF6e932Ca12afa26665dC4dDE7e27be02A7c02e50",
+        chain: "base",
+        chain_id: 8453,
+        ticker: "MOCHI",
+        buy_url: "https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0xF6e932Ca12afa26665dC4dDE7e27be02A7c02e50",
+        website: "https://mochithecatcoin.com/"
+    },
+    {
         address: "0x93e6407554B2F02640aB806cD57bd83e848Ec65d",
         chain: "base",
         chain_id: 8453,
