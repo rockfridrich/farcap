@@ -23,3 +23,9 @@ export function nFormatter(num, digits) {
         const item = lookup.findLast(item => num >= item.value);
         return item ? (num / item.value).toFixed(digits).replace(regexp, "").concat(item.symbol) : "0";
       }
+
+export function cachedMinute(minutes: number) {
+        var minutes = 1000 * 60 * minutes;
+        var date = new Date()  //or use any other date
+        return new Date(Math.round(date.getTime() / minutes) * minutes).getTime()
+}
