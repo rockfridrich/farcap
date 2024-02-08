@@ -30,7 +30,7 @@ export const loader = async ({
 };
 
 function purchaseRedirect(coin:ICoin, outputAmount: string) {
-  const buyUrl = `https://app.uniswap.org/#swap/?chain=${coin.chain}&outputCurrency=${coin.address}&exactAmount=${outputAmount}&exactField=output`
+  const buyUrl = `https://app.uniswap.org/#/swap?chain=${coin.chain}&exactAmount=${outputAmount}&exactField=output&outputCurrency=${coin.address.toLowerCase()}&inputCurrency=ETH`
   throw redirect(buyUrl)
   //console.log(buyUrl)
 }
