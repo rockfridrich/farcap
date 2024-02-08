@@ -6,6 +6,7 @@ import { OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from '~/routes/image.$coinId'
 import { CoinInfo } from './dexscreener.server'
 import { ICoin } from './data'
 import { nFormatter } from './utils'
+import moment from 'moment'
 
 async function getFont(
     font: string,
@@ -50,7 +51,9 @@ async function getFont(
             getFont("Inter")
         ]).then((fonts) => fonts.flat())
     }
-    
+    //https://momentjs.com/ Feb 7th, 2024 10:21 UTC
+    const date = moment(Date.now()).format('MMM Do, Y hh:mm UTC');//%b %d, %Y %I:%M UTC
+
     // Design the image and generate an SVG with "satori"
     const svg = await satori(
         // <div
@@ -317,9 +320,9 @@ async function getFont(
     </div>
     <div
       className="date"
-      style={{ textTransform: "uppercase", paddingRight: 14 }}
+      style={{ textTransform: "uppercase", paddingRight: 14, display: 'flex' }}
     >
-      FEB 7th, 2024 17:00 UTC
+      {date.toUpperCase()}
     </div>
   </div>
   <img
