@@ -17,6 +17,7 @@ export interface ICoin extends CoinRecord {
     readonly preview: string
     readonly lp: string
     readonly screener: string
+    readonly previewName: string
 }
 
 class Coin implements CoinRecord {
@@ -60,6 +61,12 @@ class Coin implements CoinRecord {
 
     get screener(){
         return `https://dexscreener.com/${this.chain}/${this.address}`
+    }
+
+    get previewName() {
+        return `${this.ticker.charAt(1).toUpperCase()
+        + this.ticker.toLowerCase().slice(2)} (${this.chain.charAt(0).toUpperCase()
+            + this.chain.toLowerCase().slice(1)})`
     }
 }
 
