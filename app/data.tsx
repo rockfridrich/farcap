@@ -161,6 +161,14 @@ export function getCoin(id: string) {
         ticker: "FAR",
         buy_url: "https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0x93e6407554B2F02640aB806cD57bd83e848Ec65d",
         website: "https://warpcast.com/~/channel/farlaunch"
+    },
+    {
+        address: "0xB36A0e830bD92E7AA5D959c17A20D7656976dd98",
+        chain: "base",
+        chain_id: 8453,
+        ticker: "wowow",
+        buy_url: "https://app.uniswap.org/swap?chain=base&inputCurrency=ETH&outputCurrency=0xB36A0e830bD92E7AA5D959c17A20D7656976dd98",
+        website: "https://www.wowow.lol/"
     }
 ].forEach((coin) => {
     Coins.create(
