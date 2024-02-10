@@ -72,7 +72,7 @@ interface IPair {
 
       const data = await response.json()
 
-      if(data?.pairs.length == 0) {
+      if(data?.pairs?.length == 0) {
           throw Error('No pairs found')
       }
 
