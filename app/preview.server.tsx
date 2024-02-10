@@ -26,6 +26,10 @@ const Previews = {
 
   get(token: string, timestamp: string): string | null {
 
+      if(!process.env.CACHE_IMAGE) {
+          return null 
+      }
+
       let tokenPreviews = Previews.records[token]
       if(tokenPreviews == null) {
         return null
@@ -35,9 +39,13 @@ const Previews = {
   },
 
   create(token:string, timestamp: string, preview:string): string { 
+    
+    if(process.env.CACHE_IMAGE) {
       Previews.records[token] = {}
       Previews.records[token][timestamp] = preview;
-      return preview;
+    }
+    
+    return preview;
   }
 }
 
