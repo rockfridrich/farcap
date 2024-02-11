@@ -439,7 +439,7 @@ async function upTrendPreview(coin: ICoin, coinInfo: CoinInfo, date: string, opt
       }}
       >
       <div className="yo" style={{ textTransform: "uppercase" }}>
-        Yo.FINANCE
+        APPROVE FRAME TXS WITH @ORG WALLET
       </div>
       <div
         className="date"
@@ -762,7 +762,7 @@ async function downTrendPreview(coin: ICoin, coinInfo: CoinInfo, date: string, o
     }}
   >
     <div className="yo" style={{ display: "flex", textTransform: "uppercase" }}>
-      Yo.FINANCE
+      APPROVE FRAME TXS WITH @ORG WALLET
     </div>
     <div
       className="date"
@@ -1037,7 +1037,7 @@ async function chart(coin: ICoin, coinInfo: CoinInfo, date: string, options: Sat
       }}
       >
       <div className="yo" style={{ textTransform: "uppercase" }}>
-        Yo.FINANCE
+        APPROVE FRAME TXS WITH @ORG WALLET
       </div>
       <div
         className="date"
